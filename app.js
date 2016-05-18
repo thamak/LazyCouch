@@ -1,10 +1,9 @@
 "use strict";
-
-var express = require("express");
-var bodyParser = require("body-parser");
-var errorHandler = require("errorhandler");
-var methodOverride = require("method-override");
-var routes = require("./routes/index");
+const express = require("express");
+const bodyParser = require("body-parser");
+const errorHandler = require("errorhandler");
+const methodOverride = require("method-override");
+const routes = require("./routes/index");
 var app = express();
 app.set("views", "./views");
 app.set("view engine", "jade");
@@ -13,14 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(__dirname + "/public"));
-var env = process.env.NODE_ENV || "development";
+let env = process.env.NODE_ENV || "development";
 if (env === "development") {
     app.use(errorHandler());
 }
 app.get('/', routes.index);
-app.listen(4000, function () {
+app.listen(4000, () => {
     console.log("LazyCouch server listening on port %d in %s mode", 4000, app.settings.env);
-    console.log("test def", 4000, app.settings.env);
+    console.log("test", 4000, app.settings.env);
 });
 exports.App = app;
 //# sourceMappingURL=app.js.map

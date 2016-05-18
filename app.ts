@@ -30,7 +30,7 @@ app.get('/', routes.index);
 
 app.listen(4000, () => {
     console.log("LazyCouch server listening on port %d in %s mode", 4000, app.settings.env);
-    console.log("test def", 4000, app.settings.env);
+    console.log("test", 4000, app.settings.env);
 });
 
 export let App = app;

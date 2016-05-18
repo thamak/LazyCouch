@@ -13,5 +13,10 @@
     "noLib": false,
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true
-  }
+  },
+  "files": [
+    "app.ts",
+    "./routes/index.ts",
+    "./typings/browser.d.ts"
+  ]  
 }
