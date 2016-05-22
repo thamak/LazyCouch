@@ -1,4 +1,5 @@
 /// <reference path="main/ambient/body-parser/index.d.ts" />
+/// <reference path="main/ambient/core-js/index.d.ts" />
 /// <reference path="main/ambient/errorhandler/index.d.ts" />
 /// <reference path="main/ambient/express-serve-static-core/index.d.ts" />
 /// <reference path="main/ambient/express/index.d.ts" />

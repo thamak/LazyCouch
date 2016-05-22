@@ -1,6 +1,6 @@
-﻿import * as express from 'express';
+﻿import * as express from "express";
 
 /* GET home page. */
 export function index(req: express.Request, res: express.Response) {
-    res.render('index', { title: 'Fuck5', you: 'kikik' })
+    res.render("index", { title: "Fuck5", you: "kikik" });
 };

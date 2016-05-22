@@ -40,6 +40,8 @@ var gulp = require("gulp"),
 	sourcemaps = require("gulp-sourcemaps"),
 	uglify = require("gulp-uglify"),
 	nodemon = require("gulp-nodemon"),
+	stylus = require("gulp-stylus"),
+	replace = require("gulp-replace"),
 	runSequence = require("run-sequence"),
 	mocha = require("gulp-mocha"),
 	istanbul = require("gulp-istanbul"),
@@ -52,7 +54,11 @@ var gulp = require("gulp"),
 //******************************************************************************
 var isLintError = false;
 gulp.task('ts-lint', function () {
-	return gulp.src(paths.allTypeScript)
+	return gulp.src([
+						"./**/*.ts",
+						"!./node_modules/**/*.ts",
+						"!./typings/**/*.ts"
+					])
 				.pipe(tslint({ rulesDirectory: 'node_modules/tslint-microsoft-contrib' }))
 				.pipe(tslint.report(tsstylish, {
 		emitError: true,
@@ -70,17 +76,25 @@ gulp.task("build-app", function () {
 	//gutil.log("./routes" + paths.allTypeScript);
 	require("babel-core/register");
 	return gulp.src([
-		"./app.ts",
-		"./routes/" + paths.allTypeScript,
-		"./server/" + paths.allTypeScript,
-		paths.libraryTypeScriptDefinitions,
-		paths.allAppDeclarationTypeScript
-	], { base: "./" })
+						"./**/*.ts",
+						"!./node_modules/**/*.ts",
+						"!./typings/main/**/*.ts",
+						"!./typings/main.d.ts"
+					], { base: "." })
 		.pipe(sourcemaps.init())
 		.pipe(tsc(tsProject))
 		//.dts.pipe(gulp.dest(paths.tsOutputPath))
 		.js.pipe(babel({ presets: 'es2015' }))
-		.pipe(sourcemaps.write('.'))
+		.pipe(sourcemaps.write('.', { 
+			includeContent: false,
+			sourceRoot: ".", 
+			mapSources: function(sourcePath) {
+				gutil.log(sourcePath); 
+				return "kikoo";
+			}
+		}))
+		// On enlève le chemin relatif des sourcemaps qui empêche le debug
+		.pipe(replace(/\"([a-zA-Z]+\/)+([a-zA-Z]+(\.js|\.ts))\"/g, '\"$2\"'))
 		.pipe(gulp.dest("."));
 });
 
@@ -186,6 +200,15 @@ gulp.task('nodemon', function (cb) {
 			});
 		}, BROWSER_SYNC_RELOAD_DELAY);
 	});
+});
+
+//******************************************************************************
+//* STYLUS
+//******************************************************************************
+gulp.task('stylus', function () {
+  return gulp.src('./public/stylesheets/style.styl')
+    .pipe(stylus())
+    .pipe(gulp.dest('./public/stylesheets'));
 });
 
 //******************************************************************************
